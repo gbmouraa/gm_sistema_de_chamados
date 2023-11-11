@@ -7,10 +7,15 @@ import "./signIn.scss";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassWord] = useState("");
+  // trazer do context
+  const [loadingAuth, setLoadingAuth] = useState(false);
 
   return (
     <div className="login-area">
       <div className="card">
+        <div className="loading-area">
+          <span className={loadingAuth ? "loading-animation" : ""}></span>
+        </div>
         <img src={logo} alt="Logo Gm solutions" />
 
         <span>Login</span>

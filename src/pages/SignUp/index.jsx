@@ -6,10 +6,15 @@ function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassWord] = useState("");
+  // trazer do contexto
+  const [loadingAuth, setLoadingAuth] = useState(false);
 
   return (
     <div className="login-area">
       <div className="card">
+        <div className="loading-area">
+          <span className={loadingAuth ? "loading-animation" : ""}></span>
+        </div>
         <img src={logo} alt="Logo Gm solutions" />
         <span style={{ marginBottom: "0" }}>Criar nova conta</span>
 
