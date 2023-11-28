@@ -20,8 +20,6 @@ function SignIn() {
     alert(JSON.stringify(data));
   }
 
-  console.log("renderizou");
-
   return (
     <div className="login-area">
       <div className="card">
