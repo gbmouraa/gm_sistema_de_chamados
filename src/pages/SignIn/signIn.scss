@@ -121,6 +121,16 @@
     }
   }
 
+  .input-container.error {
+    input {
+      border-color: #ff0000;
+
+      &:focus + label {
+        color: #ff0000;
+      }
+    }
+  }
+
   .actions-area {
     width: 100%;
     display: flex;

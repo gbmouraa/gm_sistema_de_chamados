@@ -18,7 +18,7 @@ function SignUp() {
         <img src={logo} alt="Logo Gm solutions" />
         <span style={{ marginBottom: "0" }}>Criar nova conta</span>
 
-        <form>
+        <form autoComplete="off">
           <div className="input-container">
             <input
               type="text"
@@ -29,7 +29,7 @@ function SignUp() {
             />
             <label htmlFor="email">Nome</label>
           </div>
-
+          {/* adicionar classe de erro no input-container */}
           <div className="input-container">
             <input
               type="text"
