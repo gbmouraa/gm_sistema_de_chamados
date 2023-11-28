@@ -1,14 +1,26 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+import validator from "validator";
 
 import "./signIn.scss";
 
 function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassWord] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   // trazer do context
   const [loadingAuth, setLoadingAuth] = useState(false);
+
+  function onSubmit(data) {
+    alert(JSON.stringify(data));
+  }
+
+  console.log("renderizou");
 
   return (
     <div className="login-area">
@@ -21,36 +33,52 @@ function SignIn() {
         <span>Login</span>
         <p>Use sua conta Gm Solutions</p>
 
-        <form>
+        <div className="form">
           <div className="input-container">
             <input
+              className={errors?.email && "input-error"}
               type="text"
               id="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+              {...register("email", {
+                required: true,
+                validate: (value) => validator.isEmail(value),
+              })}
             />
             <label htmlFor="email">Email</label>
+
+            {errors?.email?.type === "required" && (
+              <p className="error-message">Email não pode estar vazio</p>
+            )}
+            {errors?.email?.type === "validate" && (
+              <p className="error-message">insira um email válido</p>
+            )}
           </div>
 
           <div className="input-container">
             <input
+              className={errors?.password && "input-error"}
               type="password"
               id="password"
               required
-              value={password}
-              onChange={(e) => setPassWord(e.target.value)}
+              autoComplete="off"
+              {...register("password", { required: true })}
             />
             <label htmlFor="password">Senha</label>
+
+            {errors?.password?.type === "required" && (
+              <p className="error-message">Senha não pode estar vazio</p>
+            )}
           </div>
 
           <div className="actions-area">
             <Link to="/register">Criar uma conta</Link>
-            <button type="submit" className="login">
+            <button onClick={() => handleSubmit(onSubmit)()} className="login">
               Entrar
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

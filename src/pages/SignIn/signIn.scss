@@ -65,7 +65,7 @@
     margin-bottom: 1.4rem;
   }
 
-  form {
+  .form {
     width: 100%;
     max-width: 36.6rem;
     margin-top: 4.2rem;
@@ -77,6 +77,28 @@
   .input-container {
     width: 100%;
     position: relative;
+
+    .error-message {
+      color: #ff0000;
+      margin: -2rem 0 2.4rem;
+      font-size: 1.4rem;
+    }
+
+    .input-error {
+      border-color: #ff0000;
+
+      &:valid + label {
+        color: #ff0000;
+      }
+
+      &:focus {
+        border-color: #ff0000;
+      }
+
+      &:focus + label {
+        color: #ff0000;
+      }
+    }
 
     input {
       width: 100%;
@@ -118,16 +140,6 @@
       top: 2rem;
       left: 2.2rem;
       transition: all 0.3s ease;
-    }
-  }
-
-  .input-container.error {
-    input {
-      border-color: #ff0000;
-
-      &:focus + label {
-        color: #ff0000;
-      }
     }
   }
 

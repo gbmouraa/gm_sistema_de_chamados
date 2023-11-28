@@ -1,13 +1,21 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
+import validator from "validator";
 
 function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassWord] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   // trazer do contexto
   const [loadingAuth, setLoadingAuth] = useState(false);
+
+  function onSubmit(data) {
+    console.log(data);
+  }
 
   return (
     <div className="login-area">
@@ -18,42 +26,69 @@ function SignUp() {
         <img src={logo} alt="Logo Gm solutions" />
         <span style={{ marginBottom: "0" }}>Criar nova conta</span>
 
-        <form autoComplete="off">
+        <div className="form">
           <div className="input-container">
             <input
+              className={errors?.nome && "input-error"}
               type="text"
               id="name"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              autoComplete="off"
+              {...register("nome", { required: true })}
             />
             <label htmlFor="email">Nome</label>
+
+            {errors?.nome?.type === "required" && (
+              <p className="error-message">Nome não pode estar vazio.</p>
+            )}
           </div>
-          {/* adicionar classe de erro no input-container */}
+
           <div className="input-container">
             <input
+              className={errors?.email && "input-error"}
               type="text"
               id="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+              {...register("email", {
+                required: true,
+                validate: (value) => validator.isEmail(value),
+              })}
             />
             <label htmlFor="email">Email</label>
+
+            {errors?.email?.type === "required" && (
+              <p className="error-message">Email não pode estar vazio.</p>
+            )}
+            {errors?.email?.type === "validate" && (
+              <p className="error-message">Insira um email válido.</p>
+            )}
           </div>
 
           <div className="input-container">
             <input
+              className={errors?.password && "input-error"}
               type="password"
               id="password"
               required
-              value={password}
-              onChange={(e) => setPassWord(e.target.value)}
+              autoComplete="off"
+              {...register("password", { required: true, minLength: 6 })}
             />
             <label htmlFor="password">Senha</label>
+
+            {errors?.password?.type === "minLength" && (
+              <p className="error-message">
+                Senha deve conter no minimo 6 caracteres.
+              </p>
+            )}
+
+            {errors?.password?.type === "required" && (
+              <p className="error-message">Senha não pode estar vazio.</p>
+            )}
           </div>
 
           <div className="actions-area">
-            <button type="submit" className="login">
+            <button onClick={() => handleSubmit(onSubmit)()} className="login">
               Cadastrar
             </button>
             <Link
@@ -67,7 +102,7 @@ function SignUp() {
               Já possui uma conta? Faça login
             </Link>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
