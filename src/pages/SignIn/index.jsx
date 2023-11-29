@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import validator from "validator";
+import { AuthContext } from "../../contexts/auth";
 
 import "./signIn.scss";
 
@@ -13,11 +14,11 @@ function SignIn() {
     formState: { errors },
   } = useForm();
 
-  // trazer do context
-  const [loadingAuth, setLoadingAuth] = useState(false);
+  const { loadingAuth, signIn } = useContext(AuthContext);
 
-  function onSubmit(data) {
-    alert(JSON.stringify(data));
+  async function onSubmit(data) {
+    const { email, password } = data;
+    await signIn(email, password);
   }
 
   return (

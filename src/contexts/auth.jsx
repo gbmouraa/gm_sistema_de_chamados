@@ -1,8 +1,13 @@
 import { useState, createContext } from "react";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { auth, db } from "../services/firebaseConection";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { set } from "react-hook-form";
 
 const AuthContext = createContext({});
 
@@ -43,6 +48,31 @@ function AuthProvider({ children }) {
       });
   }
 
+  async function signIn(email, password) {
+    setLoadingAuth(true);
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(async (value) => {
+        let uid = value.user.uid;
+
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+
+        let data = {
+          uid: uid,
+          nome: docSnap.data().nome,
+          email: value.user.email,
+          avatarUrl: docSnap.data().avatarUrl,
+        };
+
+        setUser(data);
+        setStorageUser(data);
+        setLoadingAuth(false);
+        navigate("/dashboard");
+        setLoadingAuth(false);
+      })
+      .catch((error) => console.log(error));
+  }
+
   function setStorageUser(user) {
     localStorage.setItem("@tickets", JSON.stringify(user));
   }
@@ -55,7 +85,7 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ loadingAuth, signUp, logOut }}>
+    <AuthContext.Provider value={{ loadingAuth, signUp, signIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );
