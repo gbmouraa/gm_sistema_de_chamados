@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import validator from "validator";
 import { AuthContext } from "../../contexts/auth";
 import { useContext } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 function SignUp() {
   const {
@@ -14,6 +15,8 @@ function SignUp() {
   } = useForm();
 
   const { signUp, loadingAuth } = useContext(AuthContext);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(data) {
     const { nome, email, password } = data;
@@ -72,17 +75,38 @@ function SignUp() {
           <div className="input-container">
             <input
               className={errors?.password && "input-error"}
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               required
               autoComplete="off"
-              {...register("password", { required: true, minLength: 6 })}
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                maxLength: 16,
+              })}
             />
             <label htmlFor="password">Senha</label>
+
+            <button
+              className="btn-toggle-password"
+              onClick={() => setShowPassword(() => !showPassword)}
+            >
+              {showPassword ? (
+                <Eye size={24} color="#ccc" />
+              ) : (
+                <EyeOff size={24} color="#ccc" />
+              )}
+            </button>
 
             {errors?.password?.type === "minLength" && (
               <p className="error-message">
                 Senha deve conter no minimo 6 caracteres.
+              </p>
+            )}
+
+            {errors?.password?.type === "maxLength" && (
+              <p className="error-message">
+                Senha deve conter no máximo 16 caracteres.
               </p>
             )}
 

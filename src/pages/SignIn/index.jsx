@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import validator from "validator";
 import { AuthContext } from "../../contexts/auth";
+import { EyeOff, Eye } from "lucide-react";
 
 import "./signIn.scss";
 
@@ -15,6 +16,8 @@ function SignIn() {
   } = useForm();
 
   const { loadingAuth, signIn } = useContext(AuthContext);
+
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(data) {
     const { email, password } = data;
@@ -58,13 +61,24 @@ function SignIn() {
           <div className="input-container">
             <input
               className={errors?.password && "input-error"}
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               required
               autoComplete="off"
               {...register("password", { required: true })}
             />
             <label htmlFor="password">Senha</label>
+
+            <button
+              className="btn-toggle-password"
+              onClick={() => setShowPassword(() => !showPassword)}
+            >
+              {showPassword ? (
+                <Eye size={24} color="#ccc" />
+              ) : (
+                <EyeOff size={24} color="#ccc" />
+              )}
+            </button>
 
             {errors?.password?.type === "required" && (
               <p className="error-message">Senha não pode estar vazio</p>
