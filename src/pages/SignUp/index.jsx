@@ -13,10 +13,12 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const { setLoadingAuth, loadingAuth } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
-  function onSubmit(data) {
-    setLoadingAuth(true);
+  async function onSubmit(data) {
+    const { nome, email, password } = data;
+
+    await signUp(nome, email, password);
   }
 
   return (
