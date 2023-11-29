@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,16 +7,33 @@ import {
 import { auth, db } from "../services/firebaseConection";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { set } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [loadingAuth, setLoadingAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function loadUser() {
+      const userStorage = localStorage.getItem("@tickets");
+
+      if (userStorage) {
+        setUser(JSON.parse(userStorage));
+        setLoading(false);
+        navigate("/dashboard");
+      }
+
+      setLoading(false);
+    }
+
+    loadUser();
+  }, []);
 
   async function signUp(name, email, password) {
     setLoadingAuth(true);
@@ -40,6 +57,7 @@ function AuthProvider({ children }) {
           setStorageUser(data);
           setLoadingAuth(false);
           navigate("/dashboard");
+          toast.success(`Olá ${data.nome}`);
         });
       })
       .catch((error) => {
@@ -69,8 +87,12 @@ function AuthProvider({ children }) {
         setLoadingAuth(false);
         navigate("/dashboard");
         setLoadingAuth(false);
+        toast.success(`Olá ${data.nome}`);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setLoadingAuth(false);
+      });
   }
 
   function setStorageUser(user) {
@@ -85,7 +107,9 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ loadingAuth, signUp, signIn, logOut }}>
+    <AuthContext.Provider
+      value={{ loadingAuth, signUp, signIn, logOut, signed: !!user, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
