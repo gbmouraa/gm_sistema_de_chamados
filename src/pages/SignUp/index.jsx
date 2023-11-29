@@ -3,6 +3,8 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import validator from "validator";
+import { AuthContext } from "../../contexts/auth";
+import { useContext } from "react";
 
 function SignUp() {
   const {
@@ -10,11 +12,11 @@ function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // trazer do contexto
-  const [loadingAuth, setLoadingAuth] = useState(false);
+
+  const { setLoadingAuth, loadingAuth } = useContext(AuthContext);
 
   function onSubmit(data) {
-    console.log(data);
+    setLoadingAuth(true);
   }
 
   return (
