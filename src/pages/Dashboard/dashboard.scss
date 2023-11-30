@@ -1,8 +1,15 @@
-.container {
-  display: flex;
+@import "../../index.scss";
 
+.container {
   main {
-    flex-grow: 1;
-    padding-left: 40rem;
+    height: 100vh;
+    padding: 2.4rem;
+    display: flex;
+    justify-content: left;
+
+    @include screen(lg) {
+      margin-left: 26rem;
+      padding: 4rem;
+    }
   }
 }

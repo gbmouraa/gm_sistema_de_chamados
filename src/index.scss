@@ -1,4 +1,17 @@
 $primary-blue: #1a73e8;
+$text: #7c7c7c;
+
+@mixin screen($screen) {
+  @if $screen == md {
+    @media screen and (min-width: 768px) {
+      @content;
+    }
+  } @else if $screen == lg {
+    @media screen and (min-width: 1040px) {
+      @content;
+    }
+  }
+}
 
 html {
   // Intuito de tornar o uso do rem mais fácil
@@ -17,6 +30,8 @@ html {
 body {
   width: 100%;
   height: 100%;
+  font-size: 1.6rem;
+  overflow: hidden;
 }
 
 .Toastify__toast-body {

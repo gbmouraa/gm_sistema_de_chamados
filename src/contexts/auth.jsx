@@ -19,6 +19,8 @@ function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
+  const [showNav, setShowNav] = useState(false);
+
   useEffect(() => {
     async function loadUser() {
       const userStorage = localStorage.getItem("@tickets");
@@ -116,6 +118,8 @@ function AuthProvider({ children }) {
         signed: !!user,
         loading,
         user,
+        showNav,
+        setShowNav,
       }}
     >
       {children}

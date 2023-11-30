@@ -4,13 +4,13 @@ import Header from "../../components/Header";
 import "./dashboard.scss";
 
 function Dashboard() {
-  const { logOut } = useContext(AuthContext);
+  const { logOut, showNav, setShowNav } = useContext(AuthContext);
 
   return (
     <div className="container">
       <Header />
 
-      <main>
+      <main onClick={() => setShowNav(false)}>
         <div className="content">
           <h1>Página Dashboard</h1>
           <button onClick={logOut}>Sair</button>
