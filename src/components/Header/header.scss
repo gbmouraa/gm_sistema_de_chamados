@@ -43,11 +43,17 @@ header {
 
 .menu-area {
   display: flex;
-  justify-content: space-between;
   padding: 1.4rem;
   align-items: center;
   border-bottom: 0.1rem solid #dddddd;
   transition: all 0.3s;
+
+  div {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+
   @include screen(lg) {
     display: none;
   }

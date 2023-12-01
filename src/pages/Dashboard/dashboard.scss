@@ -1,15 +1,1 @@
 @import "../../index.scss";
-
-.container {
-  main {
-    height: 100vh;
-    padding: 2.4rem;
-    display: flex;
-    justify-content: left;
-
-    @include screen(lg) {
-      margin-left: 26rem;
-      padding: 4rem;
-    }
-  }
-}

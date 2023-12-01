@@ -5,7 +5,6 @@ import {
   UsersRound,
   Settings,
   LogOut,
-  CircleUserRound,
   UserRound,
   X,
   Menu,
@@ -16,7 +15,12 @@ import "./header.scss";
 import logo from "../../assets/logo.png";
 
 function Header() {
-  const { user, showNav, setShowNav } = useContext(AuthContext);
+  const { user, showNav, setShowNav, logOut } = useContext(AuthContext);
+
+  function handleLogOut() {
+    logOut();
+    setShowNav(false);
+  }
 
   return (
     <>
@@ -32,7 +36,9 @@ function Header() {
           <Menu size={24} color="#ccc" />
         </button>
 
-        <img src={logo} alt="Logo" style={{ maxWidth: "100px" }} />
+        <div>
+          <img src={logo} alt="Logo" style={{ maxWidth: "100px" }} />
+        </div>
       </div>
 
       <header className={showNav ? "active" : ""}>
@@ -67,12 +73,12 @@ function Header() {
             Clientes
           </Link>
 
-          <Link onClick={() => setShowNav(false)}>
+          <Link to="/profile" onClick={() => setShowNav(false)}>
             <Settings size={24} color="#ccc" />
             Configurações
           </Link>
 
-          <Link onClick={() => setShowNav(false)}>
+          <Link onClick={handleLogOut}>
             <LogOut size={24} color="#ccc" />
             Sair
           </Link>

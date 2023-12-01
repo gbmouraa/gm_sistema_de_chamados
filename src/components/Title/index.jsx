@@ -1,10 +1,7 @@
-function Title({ icon, text }) {
-  return (
-    <div className="title">
-      {icon}
-      {text}
-    </div>
-  );
+import "./title.scss";
+
+function Title({ children }) {
+  return <div className="title">{children}</div>;
 }
 
 export default Title;
