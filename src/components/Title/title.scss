@@ -1,0 +1,11 @@
+@import "../../index.scss";
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: $text;
+
+  svg {
+    margin-right: 1rem;
+  }
+}
