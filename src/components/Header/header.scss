@@ -7,11 +7,12 @@ header {
   height: 100vh;
   width: 26rem;
   padding: 0rem 2rem 0 2rem;
-  border-right: 0.1rem solid #dddddd;
+  // border-right: 0.1rem solid #ecb2d794;
   z-index: 9999;
   transform: translateX(-30rem);
   background-color: #fff;
   transition: all 0.5s ease;
+  box-shadow: 2px 0px 27px -17px rgba(207, 207, 207, 0.75);
 
   @include screen(lg) {
     transform: translateX(0rem);
@@ -42,6 +43,11 @@ header {
 }
 
 .menu-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
   display: flex;
   padding: 1.4rem;
   align-items: center;

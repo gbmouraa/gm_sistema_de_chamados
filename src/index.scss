@@ -36,10 +36,10 @@ body {
 
 section {
   width: 100%;
-  border: 0.1rem solid #dddddd;
   border-radius: 0.5rem;
   margin-top: 2.4rem;
   padding: 2.4rem;
+  background-color: #fff;
 }
 
 .Toastify__toast-body {
@@ -49,13 +49,15 @@ section {
 .container {
   main {
     height: 100vh;
-    padding: 2.4rem;
+    padding: 8.6rem 2.4rem;
     display: flex;
     flex-direction: column;
     justify-content: left;
+    background-color: #fafafa;
 
     @include screen(lg) {
       margin-left: 26rem;
+      padding-top: 4rem;
     }
   }
 }
