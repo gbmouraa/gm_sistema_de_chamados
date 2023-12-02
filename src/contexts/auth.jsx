@@ -120,6 +120,8 @@ function AuthProvider({ children }) {
         user,
         showNav,
         setShowNav,
+        setUser,
+        setStorageUser,
       }}
     >
       {children}
