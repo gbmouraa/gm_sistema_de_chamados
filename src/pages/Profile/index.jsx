@@ -36,6 +36,7 @@ function Profile() {
   async function handleUpload() {
     const currentUid = user.uid;
 
+    // cria um caminho de referencia no banco para armazenar a imagem
     const uploadRef = ref(storage, `images/${currentUid}/${imageAvatar.name}`);
 
     const uploadTask = uploadBytes(uploadRef, imageAvatar)
@@ -138,9 +139,9 @@ function Profile() {
                 />
               </div>
 
-              <div className="input-area" style={{ pointerEvents: "none" }}>
+              <div className="input-area">
                 <label>Email</label>
-                <input type="text" readOnly value={email} />
+                <input type="text" readOnly value={email} className="email" />
               </div>
 
               <button>Salvar</button>

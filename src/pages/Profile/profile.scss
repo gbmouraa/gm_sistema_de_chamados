@@ -67,8 +67,14 @@
       outline: none;
       font-size: 1.6rem;
 
-      &:focus {
+      &:focus:not(.email) {
         border: 0.2rem solid $primary-blue;
+      }
+    }
+
+    .email {
+      &:hover {
+        cursor: not-allowed;
       }
     }
   }

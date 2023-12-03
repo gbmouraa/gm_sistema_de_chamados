@@ -63,12 +63,12 @@ function Header() {
         </div>
 
         <div className="actions">
-          <Link onClick={() => setShowNav(false)}>
+          <Link to="/dashboard" onClick={() => setShowNav(false)}>
             <Home size={24} color="#ccc" />
             Chamados
           </Link>
 
-          <Link onClick={() => setShowNav(false)}>
+          <Link to="/clientes" onClick={() => setShowNav(false)}>
             <UsersRound size={24} color="#ccc" />
             Clientes
           </Link>
