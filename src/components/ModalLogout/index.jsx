@@ -3,8 +3,7 @@ import { AuthContext } from "../../contexts/auth";
 import "./modalLogout.scss";
 
 function ModalLogout() {
-  const { logOut, showModalLogout, setShowModalLogout } =
-    useContext(AuthContext);
+  const { logOut, setShowModalLogout } = useContext(AuthContext);
 
   function handleLogout() {
     logOut();

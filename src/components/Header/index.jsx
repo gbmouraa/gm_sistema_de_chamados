@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -17,14 +16,8 @@ import logo from "../../assets/logo.png";
 import ModalLogout from "../ModalLogout";
 
 function Header() {
-  const {
-    user,
-    showNav,
-    setShowNav,
-    logOut,
-    showModalLogout,
-    setShowModalLogout,
-  } = useContext(AuthContext);
+  const { user, showNav, setShowNav, showModalLogout, setShowModalLogout } =
+    useContext(AuthContext);
 
   return (
     <>
