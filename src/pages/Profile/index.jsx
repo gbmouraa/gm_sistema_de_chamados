@@ -4,7 +4,8 @@ import Title from "../../components/Title";
 import { Settings, Pencil, UserRound } from "lucide-react";
 import { AuthContext } from "../../contexts/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../services/firebaseConection";
+import { db, storage } from "../../services/firebaseConection";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 
 import "./profile.scss";
@@ -32,6 +33,40 @@ function Profile() {
     }
   }
 
+  async function handleUpload() {
+    const currentUid = user.uid;
+
+    const uploadRef = ref(storage, `images/${currentUid}/${imageAvatar.name}`);
+
+    const uploadTask = uploadBytes(uploadRef, imageAvatar)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref).then(async (downloadUrl) => {
+          let profileImage = downloadUrl;
+
+          const docRef = doc(db, "users", currentUid);
+
+          await updateDoc(docRef, {
+            nome: nome,
+            avatarUrl: profileImage,
+          }).then(() => {
+            let data = {
+              ...user,
+              nome: nome,
+              avatarUrl: profileImage,
+            };
+
+            setUser(data);
+            setStorageUser(data);
+            toast.success("Dados alterados com sucesso!");
+          });
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("Ops, ocorreu um erro, tente novamente mais tarde.");
+      });
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -57,8 +92,9 @@ function Profile() {
           console.log(e);
           toast.error("Ops, ocorreu um erro, tente novamente mais tarde.");
         });
+    } else if (imageAvatar !== null && nome !== "") {
+      handleUpload();
     }
-    // implementar handleUpload
   }
 
   return (
