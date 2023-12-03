@@ -81,9 +81,15 @@ header {
 
 .avatar {
   margin-bottom: 2.8rem;
-  // border-bottom: 0.1rem solid #dddddd;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+
+  img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 
   span {
     margin-left: 2rem;
