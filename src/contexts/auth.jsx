@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   const [showNav, setShowNav] = useState(false);
+  const [showModalLogout, setShowModalLogout] = useState(false);
 
   useEffect(() => {
     async function loadUser() {
@@ -122,6 +123,8 @@ function AuthProvider({ children }) {
         setShowNav,
         setUser,
         setStorageUser,
+        showModalLogout,
+        setShowModalLogout,
       }}
     >
       {children}

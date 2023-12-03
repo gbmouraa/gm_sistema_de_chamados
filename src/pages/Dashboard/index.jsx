@@ -1,6 +1,8 @@
 import { AuthContext } from "../../contexts/auth";
 import { useContext } from "react";
 import Header from "../../components/Header";
+import ModalLogout from "../../components/ModalLogout";
+
 import "./dashboard.scss";
 
 function Dashboard() {

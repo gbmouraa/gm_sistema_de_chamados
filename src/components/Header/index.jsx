@@ -14,13 +14,17 @@ import { AuthContext } from "../../contexts/auth";
 import "./header.scss";
 import logo from "../../assets/logo.png";
 
-function Header() {
-  const { user, showNav, setShowNav, logOut } = useContext(AuthContext);
+import ModalLogout from "../ModalLogout";
 
-  function handleLogOut() {
-    logOut();
-    setShowNav(false);
-  }
+function Header() {
+  const {
+    user,
+    showNav,
+    setShowNav,
+    logOut,
+    showModalLogout,
+    setShowModalLogout,
+  } = useContext(AuthContext);
 
   return (
     <>
@@ -78,12 +82,14 @@ function Header() {
             Configurações
           </Link>
 
-          <Link onClick={handleLogOut}>
+          <Link onClick={() => setShowModalLogout(true)}>
             <LogOut size={24} color="#ccc" />
             Sair
           </Link>
         </div>
       </header>
+
+      {showModalLogout && <ModalLogout />}
     </>
   );
 }
