@@ -4,12 +4,14 @@ import SignUp from "../pages/SignUp";
 import Dashboard from "../pages/Dashboard";
 import Private from "./Private";
 import Profile from "../pages/Profile";
+import Clientes from "../pages/Clientes";
 
 function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
+
       <Route
         path="/dashboard"
         element={
@@ -18,11 +20,21 @@ function RoutesApp() {
           </Private>
         }
       />
+
       <Route
         path="/profile"
         element={
           <Private>
             <Profile />
+          </Private>
+        }
+      />
+
+      <Route
+        path="/clientes"
+        element={
+          <Private>
+            <Clientes />
           </Private>
         }
       />
