@@ -72,6 +72,8 @@ function Profile() {
     e.preventDefault();
 
     if (imageAvatar === null && nome !== "") {
+      if (nome === user.nome) return;
+
       let uid = user.uid;
 
       const docRef = doc(db, "users", uid);
@@ -144,7 +146,7 @@ function Profile() {
                 <input type="text" readOnly value={email} className="email" />
               </div>
 
-              <button>Salvar</button>
+              <button type="submit">Salvar</button>
             </form>
           </section>
         </div>

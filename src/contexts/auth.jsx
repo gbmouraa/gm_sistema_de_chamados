@@ -65,7 +65,8 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         setLoadingAuth(false);
-        alert(error);
+        console.log(error);
+        toast.error("Ops, algo deu errado, tente novamente mais tarde.");
       });
   }
 
@@ -94,6 +95,7 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         console.log(error);
+        // inserir tratamento de erro de credenciais
         setLoadingAuth(false);
       });
   }
