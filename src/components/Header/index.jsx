@@ -67,7 +67,7 @@ function Header() {
 
           <Link to="/clientes" onClick={() => setShowNav(false)}>
             <UsersRound size={24} color="#ccc" />
-            Clientes
+            Adicionar Cliente
           </Link>
 
           <Link to="/profile" onClick={() => setShowNav(false)}>
