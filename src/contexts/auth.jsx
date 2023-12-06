@@ -29,7 +29,6 @@ function AuthProvider({ children }) {
       if (userStorage) {
         setUser(JSON.parse(userStorage));
         setLoading(false);
-        navigate("/dashboard");
       }
 
       setLoading(false);
