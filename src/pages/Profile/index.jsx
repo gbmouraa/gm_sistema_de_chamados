@@ -7,11 +7,14 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../services/firebaseConection";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 import "./profile.scss";
 
 function Profile() {
   const { user, setUser, setStorageUser } = useContext(AuthContext);
+
+  const [loadingChanges, setLoadingChanges] = useState(false);
 
   // efeito visual instataneo
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
@@ -34,6 +37,8 @@ function Profile() {
   }
 
   async function handleUpload() {
+    setLoadingChanges(true);
+
     const currentUid = user.uid;
 
     // cria um caminho de referencia no banco para armazenar a imagem
@@ -59,12 +64,14 @@ function Profile() {
             setUser(data);
             setStorageUser(data);
             toast.success("Dados alterados com sucesso!");
+            setLoadingChanges(false);
           });
         });
       })
       .catch((e) => {
         console.log(e);
         toast.error("Ops, ocorreu um erro, tente novamente mais tarde.");
+        setLoadingChanges(false);
       });
   }
 
@@ -74,8 +81,9 @@ function Profile() {
     if (imageAvatar === null && nome !== "") {
       if (nome === user.nome) return;
 
-      let uid = user.uid;
+      setLoadingChanges(true);
 
+      let uid = user.uid;
       const docRef = doc(db, "users", uid);
 
       await updateDoc(docRef, {
@@ -90,10 +98,12 @@ function Profile() {
           setUser(data);
           setStorageUser(data);
           toast.success("Dados alterados com sucesso!");
+          setLoadingChanges(false);
         })
         .catch((e) => {
           console.log(e);
           toast.error("Ops, ocorreu um erro, tente novamente mais tarde.");
+          setLoadingChanges(false);
         });
     } else if (imageAvatar !== null && nome !== "") {
       handleUpload();
@@ -146,7 +156,15 @@ function Profile() {
                 <input type="text" readOnly value={email} className="email" />
               </div>
 
-              <button type="submit">Salvar</button>
+              <div className="btn-area">
+                <button
+                  type="submit"
+                  style={loadingChanges ? { opacity: "0.7" } : {}}
+                >
+                  Salvar
+                </button>
+                {loadingChanges && <Loader />}
+              </div>
             </form>
           </section>
         </div>
