@@ -54,7 +54,7 @@ function Clientes() {
         <div className="content">
           <Title>
             <BadgePlus size={30} color="#ccc" />
-            Clientes
+            Adicionar Cliente
           </Title>
 
           <section>
