@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import Private from "./Private";
 import Profile from "../pages/Profile";
 import Clientes from "../pages/Clientes";
+import NotFound from "../pages/NotFound";
 
 function RoutesApp() {
   return (
@@ -38,6 +39,8 @@ function RoutesApp() {
           </Private>
         }
       />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
