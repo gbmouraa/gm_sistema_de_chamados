@@ -22,6 +22,7 @@ function Clientes() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   async function onSubmit(data) {
@@ -37,6 +38,7 @@ function Clientes() {
       .then(() => {
         setLoadingChanges(false);
         toast.success("Registrado com sucesso");
+        reset({ nomeEmpresa: "", cnpj: "", endereco: "" });
       })
       .catch((error) => {
         console.log(error);
