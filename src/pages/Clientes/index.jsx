@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
+import Loader from "../../components/Loader";
 import { BadgePlus } from "lucide-react";
 import { db } from "../../services/firebaseConection";
 import { addDoc, collection } from "firebase/firestore";
@@ -15,6 +16,8 @@ import "./clientes.scss";
 function Clientes() {
   const { setShowNav } = useContext(AuthContext);
 
+  const [loadingChanges, setLoadingChanges] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,15 +27,21 @@ function Clientes() {
   async function onSubmit(data) {
     const { nomeEmpresa, cnpj, endereco } = data;
 
+    setLoadingChanges(true);
+
     await addDoc(collection(db, "clientes"), {
       nomeEmpresa: nomeEmpresa,
       cnpj: cnpj,
       endereco: endereco,
     })
       .then(() => {
+        setLoadingChanges(false);
         toast.success("Registrado com sucesso");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setLoadingChanges(false);
+      });
   }
 
   return (
@@ -99,7 +108,15 @@ function Clientes() {
                 )}
               </div>
 
-              <button onClick={() => handleSubmit(onSubmit)()}>Salvar</button>
+              <div className="btn-area">
+                <button
+                  onClick={() => handleSubmit(onSubmit)()}
+                  style={loadingChanges ? { opacity: "0.7" } : {}}
+                >
+                  Salvar
+                </button>
+                {loadingChanges && <Loader />}
+              </div>
             </div>
           </section>
         </div>
