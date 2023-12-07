@@ -5,6 +5,8 @@ import Title from "../../components/Title";
 import ModalLogout from "../../components/ModalLogout";
 import { MessagesSquare, Search, Pencil } from "lucide-react";
 
+import { Link } from "react-router-dom";
+
 import "./dashboard.scss";
 
 function Dashboard() {
@@ -22,7 +24,7 @@ function Dashboard() {
           </Title>
 
           <div className="area-btn-add-chamados">
-            <button>Novo chamado</button>
+            <Link to="/novochamado">Novo chamado</Link>
           </div>
 
           <section className="table-section">

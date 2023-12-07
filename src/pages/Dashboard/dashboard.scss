@@ -63,16 +63,16 @@ table {
   justify-content: flex-end;
   margin-top: 2.4rem;
 
-  button {
-    border: none;
-    outline: none;
-    padding: 1.2rem 1.6rem;
-    color: #fff;
+  a {
     background-color: rgb(59, 196, 59);
-    font-weight: 500;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    padding: 1.2rem 1.6rem;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       opacity: 0.7;
