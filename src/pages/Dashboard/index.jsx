@@ -22,10 +22,10 @@ function Dashboard() {
           </Title>
 
           <div className="area-btn-add-chamados">
-            <button>Teste</button>
+            <button>Novo chamado</button>
           </div>
 
-          <section style={{ padding: "0" }}>
+          <section className="table-section">
             <table>
               <thead>
                 <tr>
@@ -47,12 +47,12 @@ function Dashboard() {
                   <td data-label="Data de cadastro">17/11/2022</td>
 
                   <td>
-                    <span>
-                      <Search color="#fff" />
-                    </span>
-                    <span>
-                      <Pencil color="#fff" />
-                    </span>
+                    <button className="search">
+                      <Search size={20} color="#fff" />
+                    </button>
+                    <button className="edit">
+                      <Pencil size={20} color="#fff" />
+                    </button>
                   </td>
                 </tr>
 
@@ -65,12 +65,12 @@ function Dashboard() {
                   <td data-label="Data de cadastro">17/11/2022</td>
 
                   <td>
-                    <span>
-                      <Search color="#fff" />
-                    </span>
-                    <span>
-                      <Pencil color="#fff" />
-                    </span>
+                    <button className="search">
+                      <Search size={20} color="#fff" />
+                    </button>
+                    <button className="edit">
+                      <Pencil size={20} color="#fff" />
+                    </button>
                   </td>
                 </tr>
 
@@ -83,12 +83,14 @@ function Dashboard() {
                   <td data-label="Data de cadastro">17/11/2022</td>
 
                   <td>
-                    <span className="search">
-                      <Search color="#fff" />
-                    </span>
-                    <span className="edit">
-                      <Pencil color="#fff" />
-                    </span>
+                    <button className="search">
+                      {/* abrir modal co detalhes do chamado */}
+                      <Search size={20} color="#fff" />
+                    </button>
+                    <button className="edit">
+                      {/* abrir pagina para editar chamado, pegar id do chamado, usar Link                      */}
+                      <Pencil size={20} color="#fff" />
+                    </button>
                   </td>
                 </tr>
               </tbody>
