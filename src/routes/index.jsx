@@ -41,7 +41,14 @@ function RoutesApp() {
         }
       />
 
-      <Route path="/novochamado/:id" />
+      <Route
+        path="/novochamado/:id"
+        element={
+          <Private>
+            <NovoChamado />
+          </Private>
+        }
+      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
