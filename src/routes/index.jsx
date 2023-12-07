@@ -42,7 +42,7 @@ function RoutesApp() {
       />
 
       <Route
-        path="/novochamado/:id"
+        path="/novochamado/:id?"
         element={
           <Private>
             <NovoChamado />
