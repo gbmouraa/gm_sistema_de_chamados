@@ -6,6 +6,7 @@ import Private from "./Private";
 import Profile from "../pages/Profile";
 import Clientes from "../pages/Clientes";
 import NotFound from "../pages/NotFound";
+import NovoChamado from "../pages/NovoChamado";
 
 function RoutesApp() {
   return (
@@ -39,6 +40,8 @@ function RoutesApp() {
           </Private>
         }
       />
+
+      <Route path="/novochamado/:id" />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
