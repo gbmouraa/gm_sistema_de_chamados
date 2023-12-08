@@ -2,7 +2,6 @@ import { AuthContext } from "../../contexts/auth";
 import { useContext } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
-import ModalLogout from "../../components/ModalLogout";
 import { MessagesSquare, Search, Pencil } from "lucide-react";
 
 import { Link } from "react-router-dom";
@@ -10,7 +9,7 @@ import { Link } from "react-router-dom";
 import "./dashboard.scss";
 
 function Dashboard() {
-  const { setShowNav, showModalLogout } = useContext(AuthContext);
+  const { setShowNav } = useContext(AuthContext);
 
   return (
     <div className="container">
@@ -100,8 +99,6 @@ function Dashboard() {
           </section>
         </div>
       </main>
-
-      {showModalLogout && <ModalLogout />}
     </div>
   );
 }
