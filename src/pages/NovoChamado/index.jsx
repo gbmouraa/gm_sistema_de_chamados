@@ -17,6 +17,8 @@ function NovoChamado() {
   const { setShowNav, user } = useContext(AuthContext);
   const [loadingChamado, setLoadingChamado] = useState(false);
 
+  const [loadingClientes, setLoadingClientes] = useState(false);
+
   const { id } = useParams();
 
   const [clientes, setClientes] = useState([]);
@@ -27,6 +29,8 @@ function NovoChamado() {
 
   useEffect(() => {
     const loadClientes = async () => {
+      setLoadingClientes(true);
+
       const querySnapShot = await getDocs(listRef)
         .then((snapshot) => {
           let lista = [];
@@ -42,10 +46,13 @@ function NovoChamado() {
             setClientes({ id: 1, nomeEmpresa: "Nome fantasia" });
             return;
           }
+
+          setLoadingClientes(false);
         })
         .catch((error) => {
           console.log(error);
           toast.error("Desculpe, não foi possível carregar clientes.");
+          setLoadingClientes(false);
           setClientes({ id: 1, nomeEmpresa: "Nome fantasia" });
         });
     };
@@ -108,7 +115,9 @@ function NovoChamado() {
           <section>
             <form className="form-profile" onSubmit={handleRegister}>
               <div className="input-area">
-                <label>Clientes</label>
+                <label>
+                  {loadingClientes ? "Carregando Clientes..." : "Clientes"}
+                </label>
 
                 <select value={clienteSelected} onChange={handleChangeClientes}>
                   {clientes.map((item, index) => {
