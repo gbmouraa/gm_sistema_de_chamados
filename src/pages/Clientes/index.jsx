@@ -58,7 +58,7 @@ function Clientes() {
           </Title>
 
           <section>
-            <div className="form-clientes">
+            <div className="form">
               <div className="input-container">
                 <label htmlFor="nome-empresa">Nome Fantasia</label>
 
