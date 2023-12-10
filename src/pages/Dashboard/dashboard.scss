@@ -35,6 +35,24 @@ table {
     }
   }
 
+  .actions-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
+      justify-content: flex-end;
+    }
+  }
+
+  .search,
+  .edit {
+    display: flex;
+    width: 2.6rem;
+    height: 2.6rem;
+    align-items: center;
+  }
+
   .search {
     background-color: $primary-blue;
     margin-right: 0.5rem;
@@ -123,5 +141,9 @@ table {
       padding: 0.6rem 0.6rem 0 0.6rem;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     }
+  }
+
+  .actions-table {
+    justify-content: flex-end;
   }
 }
