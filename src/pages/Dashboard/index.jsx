@@ -2,6 +2,7 @@ import { AuthContext } from "../../contexts/auth";
 import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
+import ModalDetail from "../../components/ModalDetail";
 import { MessagesSquare, Search, Pencil } from "lucide-react";
 import { db } from "../../services/firebaseConection";
 import {
@@ -25,16 +26,20 @@ function Dashboard() {
   const { setShowNav } = useContext(AuthContext);
 
   const [chamados, setChamados] = useState([]);
+  const [lastDoc, setLastDoc] = useState();
+
+  const [detail, setDetail] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const loadChamados = async () => {
       const q = query(listRef, orderBy("created", "desc"), limit(5));
 
       const querySnapShot = await getDocs(q);
+      setChamados([]);
       await updateState(querySnapShot);
     };
 
-    setChamados([]);
     loadChamados();
 
     return () => {};
@@ -58,6 +63,32 @@ function Dashboard() {
     });
 
     setChamados((chamados) => [...chamados, ...lista]);
+
+    const lastDoc = querySnapShot.docs[querySnapShot.docs.length - 1];
+    setLastDoc(lastDoc);
+  }
+
+  async function handleMore() {
+    const q = query(
+      listRef,
+      orderBy("created", "desc"),
+      startAfter(lastDoc),
+      limit(5)
+    );
+
+    const querySnapShot = await getDocs(q);
+    await updateState(querySnapShot);
+  }
+
+  function statusColor(status) {
+    if (status === "Aberto") return "#3bc43b";
+    if (status === "Progresso") return "#ffbb00";
+    if (status === "Atendido") return "#ccc";
+  }
+
+  function toggleModal(item) {
+    setDetail(item);
+    setShowModal(!showModal);
   }
 
   return (
@@ -94,7 +125,11 @@ function Dashboard() {
                       <td data-label="Cliente">{item.cliente}</td>
                       <td data-label="Assunto">{item.assunto}</td>
                       <td data-label="Status">
-                        <span>{item.status}</span>
+                        <span
+                          style={{ backgroundColor: statusColor(item.status) }}
+                        >
+                          {item.status}
+                        </span>
                       </td>
                       <td data-label="Data de cadastro">
                         {item.createdFormat}
@@ -102,10 +137,13 @@ function Dashboard() {
 
                       <td>
                         <div className="actions-table">
-                          <Link className="search">
+                          <Link
+                            className="search"
+                            onClick={() => toggleModal(item)}
+                          >
                             <Search size={20} color="#fff" />
                           </Link>
-                          <Link className="edit">
+                          <Link className="edit" to={`/novochamado/${item.id}`}>
                             <Pencil size={20} color="#fff" />
                           </Link>
                         </div>
@@ -118,6 +156,14 @@ function Dashboard() {
           </section>
         </div>
       </main>
+
+      {showModal && (
+        <ModalDetail
+          conteudo={detail}
+          close={() => setShowModal(false)}
+          statusBg={statusColor(detail.status)}
+        />
+      )}
     </div>
   );
 }
