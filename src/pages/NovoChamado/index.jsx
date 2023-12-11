@@ -5,9 +5,18 @@ import Header from "../../components/Header";
 import Title from "../../components/Title";
 import { BadgePlus } from "lucide-react";
 import { db } from "../../services/firebaseConection";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  getDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
+
+import { useNavigate } from "react-router-dom";
 
 import "./novoChamado.scss";
 
@@ -26,6 +35,10 @@ function NovoChamado() {
   const [status, setStatus] = useState("Aberto");
   const [assunto, setAssunto] = useState("Suporte");
   const [complemento, setComplemento] = useState("");
+
+  const [idCliente, setIdCliente] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadClientes = async () => {
@@ -48,6 +61,10 @@ function NovoChamado() {
           }
 
           setLoadingClientes(false);
+
+          if (id) {
+            loadId(lista);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -60,10 +77,55 @@ function NovoChamado() {
     loadClientes();
   }, [id]);
 
+  async function loadId(lista) {
+    const docRef = doc(db, "chamados", id);
+
+    const querySnapShot = await getDoc(docRef).then((snapshot) => {
+      setAssunto(snapshot.data().assunto);
+      setStatus(snapshot.data().status);
+      setComplemento(snapshot.data().complemento);
+
+      let index = lista.findIndex(
+        (item) => item.id === snapshot.data().ClienteId
+      );
+
+      setClienteSelected(index);
+      setIdCliente(true);
+    });
+  }
+
   async function handleRegister(e) {
     e.preventDefault();
 
     setLoadingChamado(true);
+
+    if (idCliente) {
+      const docRef = doc(db, "chamados", id);
+
+      await updateDoc(docRef, {
+        cliente: clientes[clienteSelected].nomeEmpresa,
+        assunto: assunto,
+        status: status,
+        complemento: complemento,
+        ClienteId: clientes[clienteSelected].id,
+        userId: user.uid,
+      })
+        .then(() => {
+          toast.warn("Chamado editado com sucesso.");
+          setClienteSelected(0);
+          setAssunto("Suporte");
+          setStatus("Aberto");
+          navigate("/dashboard");
+          setLoadingChamado(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Desculpe, não foi possível atualizar o chamado.");
+          setLoadingChamado(false);
+        });
+
+      return;
+    }
 
     await addDoc(collection(db, "chamados"), {
       created: new Date(),
@@ -71,7 +133,7 @@ function NovoChamado() {
       assunto: assunto,
       status: status,
       complemento: complemento,
-      id: clientes[clienteSelected].id,
+      ClienteId: clientes[clienteSelected].id,
       userId: user.uid,
     })
       .then(() => {
@@ -81,12 +143,16 @@ function NovoChamado() {
         setStatus("Aberto");
         setComplemento("");
         setLoadingChamado(false);
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
         toast.error("Desculpe, ocorreu um erro, tente novamente mais tarde.");
         setLoadingChamado(false);
       });
+
+    if (id) {
+    }
   }
 
   function handleChangeClientes(e) {

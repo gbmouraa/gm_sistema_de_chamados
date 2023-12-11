@@ -57,7 +57,7 @@ function Dashboard() {
         assunto: doc.data().assunto,
         status: doc.data().status,
         complemento: doc.data().complemento,
-        id: doc.data().id,
+        id: doc.id,
         userId: doc.data().userId,
       });
     });
