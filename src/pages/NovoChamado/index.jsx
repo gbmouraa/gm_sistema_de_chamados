@@ -15,11 +15,12 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
-import EmptyClientes from "../../components/EmptyClientes";
+import Empty from "../../components/EmptyClientes";
 
 import { useNavigate } from "react-router-dom";
 
 import "./novoChamado.scss";
+import illustration from "../../assets/no-user-found.png";
 
 const listRef = collection(db, "clientes");
 
@@ -49,7 +50,6 @@ function NovoChamado() {
       const querySnapShot = await getDocs(listRef)
         .then((snapshot) => {
           if (snapshot.docs.length === 0) {
-            console.log("Nenhum cliente encontrado");
             setClienteIsEmpty(true);
             setLoadingClientes(false);
             return;
@@ -178,12 +178,18 @@ function NovoChamado() {
         <div className="content">
           <Title>
             <BadgePlus size={30} color="#ccc" />
-            Novo chamado
+            {idCliente ? "Editar chamado" : "Novo chamado"}
           </Title>
 
           <section>
             {clienteIsEmpty ? (
-              <EmptyClientes />
+              <Empty
+                title="Não há nehum cliente para abrir um chamado.."
+                text="Adicione um novo cliente na aba"
+                aba="clientes"
+                link="/clientes"
+                img={illustration}
+              />
             ) : (
               <form className="form-profile" onSubmit={handleRegister}>
                 <div className="input-area">

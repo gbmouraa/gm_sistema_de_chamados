@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   color: $text;
+  text-align: center;
 
   figure {
     margin: 0;
@@ -13,6 +14,10 @@
   img {
     width: 100%;
     max-width: 40rem;
+  }
+
+  p {
+    margin-top: 1.2rem;
   }
 
   a {

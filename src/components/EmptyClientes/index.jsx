@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
 import "./emptyClientes.scss";
-import illustration from "../../assets/no-user-found.png";
 
-function EmptyClientes() {
+function Empty({ title, text, link, img, aba }) {
   return (
     <div className="empty-clientes">
       <figure>
-        <img src={illustration} alt="illustration" />
+        <img src={img} alt="illustration" />
       </figure>
-      <h1>Não há clientes para abrir um chamado.</h1>
+      <h1>{title}.</h1>
       <p>
-        Adicione um novo cliente na aba <Link to="/clientes">clientes</Link>.
+        {text} <Link to={link}>{aba}</Link>.
       </p>
     </div>
   );
 }
 
-export default EmptyClientes;
+export default Empty;
