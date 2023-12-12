@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import {
   Home,
   UsersRound,
@@ -19,6 +20,11 @@ function Header() {
   const { user, showNav, setShowNav, showModalLogout, setShowModalLogout } =
     useContext(AuthContext);
 
+  const userFirstName = () => {
+    let name = user.nome.split(" ");
+    return name[0];
+  };
+
   return (
     <>
       <div
@@ -26,15 +32,14 @@ function Header() {
           showNav ? "menu-area-disabled" : "menu-area-active"
         }`}
       >
-        <button
-          className="nav-btn menu-btn"
-          onClick={() => setShowNav(!showNav)}
-        >
+        <button className="nav-btn menu-btn" onClick={() => setShowNav(true)}>
           <Menu size={24} color="#ccc" />
         </button>
 
         <div>
-          <img src={logo} alt="Logo" style={{ maxWidth: "100px" }} />
+          <Link to="/dashboard">
+            <img src={logo} alt="Logo" style={{ maxWidth: "100px" }} />
+          </Link>
         </div>
       </div>
 
@@ -56,7 +61,7 @@ function Header() {
             <img src={user.avatarUrl} alt="Foto de perfil do usuário" />
           )}
 
-          <span>Olá {user.nome}</span>
+          <span>Olá {userFirstName()}</span>
         </div>
 
         <div className="actions">
