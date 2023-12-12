@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
+import EmptyClientes from "../../components/EmptyClientes";
 
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +33,7 @@ function NovoChamado() {
 
   const [clientes, setClientes] = useState([]);
   const [clienteSelected, setClienteSelected] = useState(0);
+  const [clienteIsEmpty, setClienteIsEmpty] = useState(false);
   const [status, setStatus] = useState("Aberto");
   const [assunto, setAssunto] = useState("Suporte");
   const [complemento, setComplemento] = useState("");
@@ -46,6 +48,13 @@ function NovoChamado() {
 
       const querySnapShot = await getDocs(listRef)
         .then((snapshot) => {
+          if (snapshot.docs.length === 0) {
+            console.log("Nenhum cliente encontrado");
+            setClienteIsEmpty(true);
+            setLoadingClientes(false);
+            return;
+          }
+
           let lista = [];
 
           snapshot.forEach((doc) => {
@@ -53,13 +62,6 @@ function NovoChamado() {
           });
 
           setClientes(lista);
-
-          if (snapshot.docs.size === 0) {
-            console.log("Nenhum cliente encontrado");
-            setClientes({ id: 1, nomeEmpresa: "Nome fantasia" });
-            return;
-          }
-
           setLoadingClientes(false);
 
           if (id) {
@@ -70,7 +72,8 @@ function NovoChamado() {
           console.log(error);
           toast.error("Desculpe, não foi possível carregar clientes.");
           setLoadingClientes(false);
-          setClientes({ id: 1, nomeEmpresa: "Nome fantasia" });
+          setClientes([]);
+          setClienteIsEmpty(true);
         });
     };
 
@@ -179,109 +182,116 @@ function NovoChamado() {
           </Title>
 
           <section>
-            <form className="form-profile" onSubmit={handleRegister}>
-              <div className="input-area">
-                <label>
-                  {loadingClientes ? "Carregando Clientes..." : "Clientes"}
-                </label>
+            {clienteIsEmpty ? (
+              <EmptyClientes />
+            ) : (
+              <form className="form-profile" onSubmit={handleRegister}>
+                <div className="input-area">
+                  <label>
+                    {loadingClientes ? "Carregando Clientes..." : "Clientes"}
+                  </label>
 
-                <select value={clienteSelected} onChange={handleChangeClientes}>
-                  {clientes.map((item, index) => {
-                    return (
-                      <option key={index} value={index}>
-                        {item.nomeEmpresa}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
+                  <select
+                    value={clienteSelected}
+                    onChange={handleChangeClientes}
+                  >
+                    {clientes.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item.nomeEmpresa}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
 
-              <div className="input-area">
-                <label>Assunto</label>
+                <div className="input-area">
+                  <label>Assunto</label>
 
-                <select value={assunto} onChange={handleChangeAssunto}>
-                  <option value="Suporte">Suporte</option>
-                  <option value="Visita técnica">Visita técnica</option>
-                  <option value="Financeiro">Financeiro</option>
-                </select>
-              </div>
+                  <select value={assunto} onChange={handleChangeAssunto}>
+                    <option value="Suporte">Suporte</option>
+                    <option value="Visita técnica">Visita técnica</option>
+                    <option value="Financeiro">Financeiro</option>
+                  </select>
+                </div>
 
-              <div className="input-area">
-                <label>Status</label>
+                <div className="input-area">
+                  <label>Status</label>
 
-                <div className="radio-area">
-                  <div>
-                    <input
-                      type="radio"
-                      name="status"
-                      value="Aberto"
-                      id="aberto"
-                      checked={status === "Aberto"}
-                      onChange={handleChangeStatus}
-                    />
-                    <label
-                      htmlFor="aberto"
-                      style={{ marginBottom: "0", fontSize: "16px" }}
-                    >
-                      Aberto
-                    </label>
-                  </div>
+                  <div className="radio-area">
+                    <div>
+                      <input
+                        type="radio"
+                        name="status"
+                        value="Aberto"
+                        id="aberto"
+                        checked={status === "Aberto"}
+                        onChange={handleChangeStatus}
+                      />
+                      <label
+                        htmlFor="aberto"
+                        style={{ marginBottom: "0", fontSize: "16px" }}
+                      >
+                        Aberto
+                      </label>
+                    </div>
 
-                  <div>
-                    <input
-                      type="radio"
-                      name="status"
-                      value="Progresso"
-                      id="progresso"
-                      checked={status === "Progresso"}
-                      onChange={handleChangeStatus}
-                    />
-                    <label
-                      htmlFor="progresso"
-                      style={{ marginBottom: "0", fontSize: "16px" }}
-                    >
-                      Progresso
-                    </label>
-                  </div>
+                    <div>
+                      <input
+                        type="radio"
+                        name="status"
+                        value="Progresso"
+                        id="progresso"
+                        checked={status === "Progresso"}
+                        onChange={handleChangeStatus}
+                      />
+                      <label
+                        htmlFor="progresso"
+                        style={{ marginBottom: "0", fontSize: "16px" }}
+                      >
+                        Progresso
+                      </label>
+                    </div>
 
-                  <div>
-                    <input
-                      type="radio"
-                      name="status"
-                      value="Atendido"
-                      id="atendido"
-                      checked={status === "Atendido"}
-                      onChange={handleChangeStatus}
-                    />
-                    <label
-                      htmlFor="atendido"
-                      style={{ marginBottom: "0", fontSize: "16px" }}
-                    >
-                      Atendido
-                    </label>
+                    <div>
+                      <input
+                        type="radio"
+                        name="status"
+                        value="Atendido"
+                        id="atendido"
+                        checked={status === "Atendido"}
+                        onChange={handleChangeStatus}
+                      />
+                      <label
+                        htmlFor="atendido"
+                        style={{ marginBottom: "0", fontSize: "16px" }}
+                      >
+                        Atendido
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="input-area">
-                <label>Complemento</label>
+                <div className="input-area">
+                  <label>Complemento</label>
 
-                <textarea
-                  value={complemento}
-                  onChange={(e) => setComplemento(e.target.value)}
-                />
-              </div>
+                  <textarea
+                    value={complemento}
+                    onChange={(e) => setComplemento(e.target.value)}
+                  />
+                </div>
 
-              <div className="btn-area">
-                <button
-                  type="submit"
-                  style={loadingChamado ? { opacity: "0.7" } : {}}
-                >
-                  Salvar
-                </button>
-                {loadingChamado && <Loader />}
-              </div>
-            </form>
+                <div className="btn-area">
+                  <button
+                    type="submit"
+                    style={loadingChamado ? { opacity: "0.7" } : {}}
+                  >
+                    Salvar
+                  </button>
+                  {loadingChamado && <Loader />}
+                </div>
+              </form>
+            )}
           </section>
         </div>
       </main>
