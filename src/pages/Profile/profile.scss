@@ -78,24 +78,6 @@
       }
     }
   }
-
-  button {
-    border: none;
-    outline: none;
-    background-color: $primary-blue;
-    border-radius: 0.5rem;
-    font-size: 1.8rem;
-    font-weight: 500;
-    color: #fff;
-    padding: 1.2rem 2.4rem;
-    width: fit-content;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
 }
 
 .btn-area {

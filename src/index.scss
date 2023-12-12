@@ -46,6 +46,28 @@ section {
   font-size: medium;
 }
 
+button {
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.default-btn {
+  color: #fff;
+  background-color: $primary-blue;
+  padding: 1.2rem 2.4rem;
+  outline: none;
+  border: none;
+  font-size: 1.6rem;
+  border-radius: 0.5rem;
+}
+
 .container {
   main {
     height: 100vh;

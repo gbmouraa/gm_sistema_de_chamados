@@ -158,6 +158,7 @@ function Profile() {
 
               <div className="btn-area">
                 <button
+                  className="default-btn"
                   type="submit"
                   style={loadingChanges ? { opacity: "0.7" } : {}}
                 >

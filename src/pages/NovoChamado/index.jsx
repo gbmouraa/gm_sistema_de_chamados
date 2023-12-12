@@ -289,6 +289,7 @@ function NovoChamado() {
 
                 <div className="btn-area">
                   <button
+                    className="default-btn"
                     type="submit"
                     style={loadingChamado ? { opacity: "0.7" } : {}}
                   >

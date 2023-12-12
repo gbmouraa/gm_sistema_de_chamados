@@ -87,7 +87,10 @@ function SignIn() {
 
           <div className="actions-area">
             <Link to="/register">Criar uma conta</Link>
-            <button onClick={() => handleSubmit(onSubmit)()} className="login">
+            <button
+              onClick={() => handleSubmit(onSubmit)()}
+              className="default-btn"
+            >
               Entrar
             </button>
           </div>

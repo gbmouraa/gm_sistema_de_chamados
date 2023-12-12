@@ -112,6 +112,7 @@ function Clientes() {
 
               <div className="btn-area">
                 <button
+                  className="default-btn"
                   onClick={() => handleSubmit(onSubmit)()}
                   style={loadingChanges ? { opacity: "0.7" } : {}}
                 >
