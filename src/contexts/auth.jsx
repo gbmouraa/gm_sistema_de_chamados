@@ -59,7 +59,7 @@ function AuthProvider({ children }) {
           setStorageUser(data);
           setLoadingAuth(false);
           navigate("/dashboard");
-          toast.success(`Olá ${data.nome}`);
+          toast.success(`Bem vindo(a)!`);
         });
       })
       .catch((error) => {
@@ -90,7 +90,7 @@ function AuthProvider({ children }) {
         setLoadingAuth(false);
         navigate("/dashboard");
         setLoadingAuth(false);
-        toast.success(`Olá ${data.nome}`);
+        toast.success(`Bem vindo(a) de volta!`);
       })
       .catch((error) => {
         console.log(error);
