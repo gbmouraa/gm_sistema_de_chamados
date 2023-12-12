@@ -12,7 +12,7 @@ import Loader from "../../components/Loader";
 import "./profile.scss";
 
 function Profile() {
-  const { user, setUser, setStorageUser } = useContext(AuthContext);
+  const { user, setUser, setStorageUser, setShowNav } = useContext(AuthContext);
 
   const [loadingChanges, setLoadingChanges] = useState(false);
 
@@ -114,7 +114,7 @@ function Profile() {
     <div className="container">
       <Header />
 
-      <main>
+      <main onClick={() => setShowNav(false)}>
         <div className="content">
           <Title>
             <Settings size={30} color="#ccc" />
