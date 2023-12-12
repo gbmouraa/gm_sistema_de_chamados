@@ -89,7 +89,7 @@ function Clientes() {
                 />
 
                 {errors?.cnpj && (
-                  <p className="error-message">Insira o nome da empresa</p>
+                  <p className="error-message">Insira o cnpj da empresa</p>
                 )}
               </div>
 
@@ -106,7 +106,7 @@ function Clientes() {
                 />
 
                 {errors?.endereco && (
-                  <p className="error-message">Insira o nome da empresa</p>
+                  <p className="error-message">Insira o endereço da empresa</p>
                 )}
               </div>
 
