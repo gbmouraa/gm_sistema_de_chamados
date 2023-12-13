@@ -54,13 +54,13 @@ function SignIn() {
               <p className="error-message">Email não pode estar vazio</p>
             )}
             {errors?.email?.type === "validate" && (
-              <p className="error-message">insira um email válido</p>
+              <p className="error-message">Insira um email válido</p>
             )}
           </div>
 
           <div className="input-container">
             <input
-              className={errors?.password && "input-error"}
+              className={`default-input ${errors?.password && "input-error"}`}
               type={showPassword ? "text" : "password"}
               id="password"
               required
