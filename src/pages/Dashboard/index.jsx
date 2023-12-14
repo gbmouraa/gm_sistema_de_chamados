@@ -37,19 +37,29 @@ function Dashboard() {
   const [detail, setDetail] = useState();
   const [showModal, setShowModal] = useState(false);
 
+  const [showMore, setShowMore] = useState(false);
+
+  const [sizeChamados, setSizeChamados] = useState();
+
   useEffect(() => {
     const loadChamados = async () => {
-      const q = query(listRef, orderBy("created", "desc"), limit(5));
+      const queryDocs = await getDocs(collection(db, "chamados"))
+        .then(async (snapShot) => {
+          if (snapShot.docs.length === 0) {
+            setChamadosIsEmpty(true);
+            return;
+          }
 
-      const querySnapShot = await getDocs(q);
+          setSizeChamados(snapShot.docs.length);
+          setShowMore(() => snapShot.docs.length > 5);
 
-      if (querySnapShot.docs.length === 0) {
-        setChamadosIsEmpty(true);
-        return;
-      }
+          const q = query(listRef, orderBy("created", "desc"), limit(5));
+          const querySnapShot = await getDocs(q);
 
-      setChamados([]);
-      await updateState(querySnapShot);
+          setChamados([]);
+          await updateState(querySnapShot);
+        })
+        .catch((error) => console.log(error));
     };
 
     loadChamados();
@@ -74,6 +84,8 @@ function Dashboard() {
 
     setChamados((chamados) => [...chamados, ...lista]);
 
+    if (chamados.length === sizeChamados) setShowMore(false);
+
     const lastDoc = querySnapShot.docs[querySnapShot.docs.length - 1];
     setLastDoc(lastDoc);
   }
@@ -83,7 +95,7 @@ function Dashboard() {
       listRef,
       orderBy("created", "desc"),
       startAfter(lastDoc),
-      limit(5)
+      limit(1)
     );
 
     const querySnapShot = await getDocs(q);
@@ -181,6 +193,16 @@ function Dashboard() {
                   })}
                 </tbody>
               </table>
+
+              {showMore && (
+                <button
+                  className="default-btn"
+                  style={{ marginTop: "20px" }}
+                  onClick={handleMore}
+                >
+                  Carregar mais
+                </button>
+              )}
             </section>
           )}
         </div>
