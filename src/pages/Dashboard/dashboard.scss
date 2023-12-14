@@ -8,6 +8,8 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.2rem;
+  // inset: 0.1rem;
+  overflow: hidden;
   border-radius: 0.5rem;
 
   th {
@@ -22,7 +24,12 @@ table {
   }
 
   .search,
-  .edit {
+  .edit,
+  .delete {
+    display: flex;
+    width: 2.6rem;
+    height: 2.6rem;
+    align-items: center;
     border: none;
     outline: none;
     padding: 0.4rem;
@@ -45,14 +52,6 @@ table {
     }
   }
 
-  .search,
-  .edit {
-    display: flex;
-    width: 2.6rem;
-    height: 2.6rem;
-    align-items: center;
-  }
-
   .search {
     background-color: $primary-blue;
     margin-right: 0.5rem;
@@ -60,6 +59,11 @@ table {
 
   .edit {
     background-color: #ffbb00;
+    margin-right: 0.5rem;
+  }
+
+  .delete {
+    background: rgb(207, 9, 9);
   }
 
   td[data-label="Status"] {
@@ -99,6 +103,7 @@ table {
 
 @media screen and (max-width: 768px) {
   table {
+    overflow: auto;
     thead {
       tr {
         width: 0px;
@@ -136,9 +141,10 @@ table {
       margin-bottom: 2rem;
       display: block;
       background-color: #f1f1f1;
+      border: 0.1rem solid #ccc;
       border-radius: 0.5rem;
       padding: 0.6rem 0.6rem 0 0.6rem;
-      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     }
   }
 

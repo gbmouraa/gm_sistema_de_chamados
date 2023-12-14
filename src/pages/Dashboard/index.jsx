@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 import ModalDetail from "../../components/ModalDetail";
-import { MessagesSquare, Search, Pencil } from "lucide-react";
+import { MessagesSquare, Search, Pencil, Trash } from "lucide-react";
 import { db } from "../../services/firebaseConection";
 import {
   collection,
@@ -12,7 +12,6 @@ import {
   startAfter,
   query,
   limit,
-  getDoc,
 } from "firebase/firestore";
 
 import Empty from "../../components/EmptyClientes";
@@ -186,6 +185,9 @@ function Dashboard() {
                             >
                               <Pencil size={20} color="#fff" />
                             </Link>
+                            <Link className="delete">
+                              <Trash size={20} color="#fff" />
+                            </Link>
                           </div>
                         </td>
                       </tr>
@@ -197,7 +199,7 @@ function Dashboard() {
               {showMore && (
                 <button
                   className="default-btn"
-                  style={{ marginTop: "20px" }}
+                  style={{ marginTop: "24px" }}
                   onClick={handleMore}
                 >
                   Carregar mais
