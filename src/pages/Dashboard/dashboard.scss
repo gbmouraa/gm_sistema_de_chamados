@@ -24,8 +24,7 @@ table {
   }
 
   .search,
-  .edit,
-  .delete {
+  .edit {
     display: flex;
     width: 2.6rem;
     height: 2.6rem;
@@ -60,10 +59,6 @@ table {
   .edit {
     background-color: #ffbb00;
     margin-right: 0.5rem;
-  }
-
-  .delete {
-    background: #cf0909;
   }
 
   td[data-label="Status"] {

@@ -3,8 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 import ModalDetail from "../../components/ModalDetail";
-import ModalDelete from "../../components/ModalDelete";
-import { MessagesSquare, Search, Pencil, Trash } from "lucide-react";
+import { MessagesSquare, Search, Pencil } from "lucide-react";
 import { db } from "../../services/firebaseConection";
 import {
   collection,
@@ -36,8 +35,6 @@ function Dashboard() {
 
   const [detail, setDetail] = useState();
   const [showModal, setShowModal] = useState(false);
-
-  const [showModalDelete, setShowModalDelete] = useState(false);
 
   const [showMore, setShowMore] = useState(false);
 
@@ -115,6 +112,11 @@ function Dashboard() {
     setShowModal(!showModal);
   }
 
+  // function toggleModalDelete(id) {
+  //   setIdToDelete(id);
+  //   setShowModalDelete(true);
+  // }
+
   return (
     <div className="container">
       <Header />
@@ -188,9 +190,6 @@ function Dashboard() {
                             >
                               <Pencil size={20} color="#fff" />
                             </Link>
-                            <Link className="delete">
-                              <Trash size={20} color="#fff" />
-                            </Link>
                           </div>
                         </td>
                       </tr>
@@ -220,12 +219,6 @@ function Dashboard() {
           statusBg={statusColor(detail.status)}
         />
       )}
-
-      {/* {showModalDelete && (
-        <ModalDelete
-  
-        />
-      )} */}
     </div>
   );
 }
