@@ -1,18 +1,11 @@
 import { AuthContext } from "../../contexts/auth";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 import ModalDetail from "../../components/ModalDetail";
 import { MessagesSquare, Search, Pencil } from "lucide-react";
 import { db } from "../../services/firebaseConection";
-import {
-  collection,
-  getDocs,
-  orderBy,
-  startAfter,
-  query,
-  limit,
-} from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 import Empty from "../../components/EmptyClientes";
 
@@ -26,19 +19,14 @@ import illustration from "../../assets/pngwing.com.png";
 const listRef = collection(db, "chamados");
 
 function Dashboard() {
-  const { setShowNav } = useContext(AuthContext);
+  const { setShowNav, user } = useContext(AuthContext);
 
   const [chamados, setChamados] = useState([]);
-  const [lastDoc, setLastDoc] = useState();
 
   const [chamadosIsEmpty, setChamadosIsEmpty] = useState(false);
 
   const [detail, setDetail] = useState();
   const [showModal, setShowModal] = useState(false);
-
-  const [showMore, setShowMore] = useState(false);
-
-  const [sizeChamados, setSizeChamados] = useState();
 
   useEffect(() => {
     const loadChamados = async () => {
@@ -49,10 +37,7 @@ function Dashboard() {
             return;
           }
 
-          setSizeChamados(snapShot.docs.length);
-          setShowMore(() => snapShot.docs.length > 5);
-
-          const q = query(listRef, orderBy("created", "desc"), limit(5));
+          const q = query(listRef, orderBy("created", "desc"));
           const querySnapShot = await getDocs(q);
 
           setChamados([]);
@@ -70,35 +55,20 @@ function Dashboard() {
     const lista = [];
 
     querySnapShot.forEach((doc) => {
-      lista.push({
-        createdFormat: format(doc.data().created.toDate(), "dd/MM/yyyy"),
-        cliente: doc.data().cliente,
-        assunto: doc.data().assunto,
-        status: doc.data().status,
-        complemento: doc.data().complemento,
-        id: doc.id,
-        userId: doc.data().userId,
-      });
+      if (doc.data().userId === user.uid) {
+        lista.push({
+          createdFormat: format(doc.data().created.toDate(), "dd/MM/yyyy"),
+          cliente: doc.data().cliente,
+          assunto: doc.data().assunto,
+          status: doc.data().status,
+          complemento: doc.data().complemento,
+          id: doc.id,
+          userId: doc.data().userId,
+        });
+      }
     });
 
     setChamados((chamados) => [...chamados, ...lista]);
-
-    if (chamados.length === sizeChamados) setShowMore(false);
-
-    const lastDoc = querySnapShot.docs[querySnapShot.docs.length - 1];
-    setLastDoc(lastDoc);
-  }
-
-  async function handleMore() {
-    const q = query(
-      listRef,
-      orderBy("created", "desc"),
-      startAfter(lastDoc),
-      limit(1)
-    );
-
-    const querySnapShot = await getDocs(q);
-    await updateState(querySnapShot);
   }
 
   function statusColor(status) {
@@ -111,11 +81,6 @@ function Dashboard() {
     setDetail(item);
     setShowModal(!showModal);
   }
-
-  // function toggleModalDelete(id) {
-  //   setIdToDelete(id);
-  //   setShowModalDelete(true);
-  // }
 
   return (
     <div className="container">
@@ -197,16 +162,6 @@ function Dashboard() {
                   })}
                 </tbody>
               </table>
-
-              {showMore && (
-                <button
-                  className="default-btn"
-                  style={{ marginTop: "24px" }}
-                  onClick={handleMore}
-                >
-                  Carregar mais
-                </button>
-              )}
             </section>
           )}
         </div>
