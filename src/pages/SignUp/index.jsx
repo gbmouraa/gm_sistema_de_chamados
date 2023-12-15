@@ -116,7 +116,10 @@ function SignUp() {
           </div>
 
           <div className="actions-area">
-            <button onClick={() => handleSubmit(onSubmit)()} className="login">
+            <button
+              onClick={() => handleSubmit(onSubmit)()}
+              className="default-btn"
+            >
               Cadastrar
             </button>
             <Link
