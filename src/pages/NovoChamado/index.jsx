@@ -12,6 +12,7 @@ import {
   getDoc,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
@@ -122,9 +123,10 @@ function NovoChamado() {
           setLoadingChamado(false);
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Desculpe, não foi possível atualizar o chamado.");
           setLoadingChamado(false);
+          if (error.code === "not-found") return;
+          console.log(error);
+          toast.error("Ocorreu um erro tente novamente mais tarde");
         });
 
       return;
@@ -168,6 +170,20 @@ function NovoChamado() {
 
   function handleChangeStatus(e) {
     setStatus(e.target.value);
+  }
+
+  async function deleteChamado() {
+    const docRef = doc(db, "chamados", id);
+
+    await deleteDoc(docRef)
+      .then(() => {
+        navigate("/dashboard");
+        toast.success("Chamado excluído");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Algo deu errado, tente novamente.");
+      });
   }
 
   return (
@@ -290,11 +306,21 @@ function NovoChamado() {
                 <div className="btn-area">
                   <button
                     className="default-btn"
-                    type="submit"
+                    onClick={handleRegister}
                     style={loadingChamado ? { opacity: "0.7" } : {}}
                   >
                     Salvar
                   </button>
+                  {id && (
+                    <button
+                      className="default-btn"
+                      style={{ backgroundColor: "#e02222", marginLeft: "14px" }}
+                      onClick={deleteChamado}
+                    >
+                      Excluir chamado
+                    </button>
+                  )}
+
                   {loadingChamado && <Loader />}
                 </div>
               </form>
