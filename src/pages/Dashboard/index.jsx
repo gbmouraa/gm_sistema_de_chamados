@@ -37,6 +37,12 @@ function Dashboard() {
             return;
           }
 
+          const userCalls = snapShot.docs.filter(
+            (doc) => doc.data().userId === user.uid
+          );
+
+          if (userCalls.length === 0) setChamadosIsEmpty(true);
+
           const q = query(listRef, orderBy("created", "desc"));
           const querySnapShot = await getDocs(q);
 
