@@ -3,11 +3,12 @@ import { AuthContext } from "../../contexts/auth";
 import "./modalLogout.scss";
 
 function ModalLogout() {
-  const { logOut, setShowModalLogout } = useContext(AuthContext);
+  const { logOut, setShowModalLogout, setShowNav } = useContext(AuthContext);
 
   function handleLogout() {
     logOut();
     setShowModalLogout(false);
+    setShowNav(false);
   }
 
   return (
