@@ -59,8 +59,12 @@ function NovoChamado() {
           let lista = [];
 
           snapshot.forEach((doc) => {
-            lista.push({ id: doc.id, nomeEmpresa: doc.data().nomeEmpresa });
+            if (doc.data().userId === user.uid) {
+              lista.push({ id: doc.id, nomeEmpresa: doc.data().nomeEmpresa });
+            }
           });
+
+          if (lista.length === 0) return;
 
           setClientes(lista);
           setLoadingClientes(false);

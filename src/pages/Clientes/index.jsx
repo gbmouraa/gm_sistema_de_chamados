@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import "./clientes.scss";
 
 function Clientes() {
-  const { setShowNav } = useContext(AuthContext);
+  const { setShowNav, user } = useContext(AuthContext);
 
   const [loadingChanges, setLoadingChanges] = useState(false);
 
@@ -34,6 +34,7 @@ function Clientes() {
       nomeEmpresa: nomeEmpresa,
       cnpj: cnpj,
       endereco: endereco,
+      userId: user.uid,
     })
       .then(() => {
         setLoadingChanges(false);
