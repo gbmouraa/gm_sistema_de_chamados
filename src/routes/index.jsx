@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import { AuthContext } from "../contexts/auth";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Dashboard from "../pages/Dashboard";
@@ -9,9 +11,11 @@ import NotFound from "../pages/NotFound";
 import NovoChamado from "../pages/NovoChamado";
 
 function RoutesApp() {
+  const { signed } = useContext(AuthContext);
+
   return (
     <Routes>
-      <Route path="/" element={<SignIn />} />
+      <Route path="/" element={signed ? <Dashboard /> : <SignIn />} />
       <Route path="/register" element={<SignUp />} />
 
       <Route
