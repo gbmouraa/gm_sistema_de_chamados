@@ -1,18 +1,31 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import validator from "validator";
 import { AuthContext } from "../../contexts/auth";
 import { useContext } from "react";
 import { Eye, EyeOff } from "lucide-react";
+
+const schema = z.object({
+  nome: z.string().min(1, "Campo nome não pode estar vazio."),
+  email: z
+    .string()
+    .min(1, "Campo email não pode estar vazio")
+    .email("Digite um email válido"),
+  password: z
+    .string()
+    .min(1, "Campo senha não pode estar vazio.")
+    .min(6, "Senha deve conter no minimo 6 caracteres"),
+});
 
 function SignUp() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
 
   const { signUp, loadingAuth } = useContext(AuthContext);
 
@@ -39,14 +52,13 @@ function SignUp() {
               className={errors?.nome && "input-error"}
               type="text"
               id="name"
-              required
               autoComplete="off"
-              {...register("nome", { required: true })}
+              {...register("nome")}
             />
             <label htmlFor="email">Nome</label>
 
-            {errors?.nome?.type === "required" && (
-              <p className="error-message">Nome não pode estar vazio.</p>
+            {errors?.nome && (
+              <p className="error-message">{errors.nome.message}</p>
             )}
           </div>
 
@@ -55,20 +67,13 @@ function SignUp() {
               className={errors?.email && "input-error"}
               type="text"
               id="email"
-              required
               autoComplete="off"
-              {...register("email", {
-                required: true,
-                validate: (value) => validator.isEmail(value),
-              })}
+              {...register("email")}
             />
             <label htmlFor="email">Email</label>
 
-            {errors?.email?.type === "required" && (
-              <p className="error-message">Email não pode estar vazio.</p>
-            )}
-            {errors?.email?.type === "validate" && (
-              <p className="error-message">Insira um email válido.</p>
+            {errors?.email && (
+              <p className="error-message">{errors.email.message}</p>
             )}
           </div>
 
@@ -77,13 +82,8 @@ function SignUp() {
               className={errors?.password && "input-error"}
               type={showPassword ? "text" : "password"}
               id="password"
-              required
               autoComplete="off"
-              {...register("password", {
-                required: true,
-                minLength: 6,
-                maxLength: 16,
-              })}
+              {...register("password")}
             />
             <label htmlFor="password">Senha</label>
 
@@ -98,20 +98,8 @@ function SignUp() {
               )}
             </button>
 
-            {errors?.password?.type === "minLength" && (
-              <p className="error-message">
-                Senha deve conter no minimo 6 caracteres.
-              </p>
-            )}
-
-            {errors?.password?.type === "maxLength" && (
-              <p className="error-message">
-                Senha deve conter no máximo 16 caracteres.
-              </p>
-            )}
-
-            {errors?.password?.type === "required" && (
-              <p className="error-message">Senha não pode estar vazio.</p>
+            {errors?.password && (
+              <p className="error-message">{errors.password.message}</p>
             )}
           </div>
 
