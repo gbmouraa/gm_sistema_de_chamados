@@ -64,7 +64,10 @@ function NovoChamado() {
             }
           });
 
-          if (lista.length === 0) return;
+          if (lista.length === 0) {
+            setLoadingClientes(false);
+            setClienteIsEmpty(true);
+          }
 
           setClientes(lista);
           setLoadingClientes(false);
