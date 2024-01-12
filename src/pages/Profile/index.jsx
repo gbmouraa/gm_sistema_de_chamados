@@ -44,7 +44,7 @@ function Profile() {
     // cria um caminho de referencia no banco para armazenar a imagem
     const uploadRef = ref(storage, `images/${currentUid}/${imageAvatar.name}`);
 
-    const uploadTask = uploadBytes(uploadRef, imageAvatar)
+    uploadBytes(uploadRef, imageAvatar)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref).then(async (downloadUrl) => {
           let profileImage = downloadUrl;
