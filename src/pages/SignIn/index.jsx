@@ -1,19 +1,28 @@
 import { useForm } from "react-hook-form";
 import { useState, useContext } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import validator from "validator";
 import { AuthContext } from "../../contexts/auth";
 import { EyeOff, Eye } from "lucide-react";
 
 import "./signIn.scss";
+
+const schema = z.object({
+  email: z
+    .string()
+    .min(1, "Campo email não pode estar vazio")
+    .email("Insira um email válido."),
+  password: z.string().min(1, "Campo senha não pode estar vazio"),
+});
 
 function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
 
   const { loadingAuth, signIn } = useContext(AuthContext);
 
@@ -41,20 +50,13 @@ function SignIn() {
               className={errors?.email && "input-error"}
               type="text"
               id="email"
-              required
               autoComplete="off"
-              {...register("email", {
-                required: true,
-                validate: (value) => validator.isEmail(value),
-              })}
+              {...register("email")}
             />
             <label htmlFor="email">Email</label>
 
-            {errors?.email?.type === "required" && (
-              <p className="error-message">Email não pode estar vazio</p>
-            )}
-            {errors?.email?.type === "validate" && (
-              <p className="error-message">Insira um email válido</p>
+            {errors?.email && (
+              <p className="error-message">{errors.email.message}</p>
             )}
           </div>
 
@@ -63,11 +65,14 @@ function SignIn() {
               className={`default-input ${errors?.password && "input-error"}`}
               type={showPassword ? "text" : "password"}
               id="password"
-              required
               autoComplete="off"
-              {...register("password", { required: true })}
+              {...register("password")}
             />
             <label htmlFor="password">Senha</label>
+
+            {errors?.password && (
+              <p className="error-message">{errors.password.message}</p>
+            )}
 
             <button
               className="btn-toggle-password"
@@ -79,10 +84,6 @@ function SignIn() {
                 <EyeOff size={24} color="#ccc" />
               )}
             </button>
-
-            {errors?.password?.type === "required" && (
-              <p className="error-message">Senha não pode estar vazio</p>
-            )}
           </div>
 
           <div className="actions-area">
