@@ -121,7 +121,7 @@
       }
 
       &:focus + label,
-      &:valid + label {
+      &:not(:empty) + label {
         top: -1rem;
         left: 1.6rem;
         font-size: 1.4rem;
