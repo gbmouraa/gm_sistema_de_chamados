@@ -54,6 +54,7 @@ function SignUp() {
               id="name"
               autoComplete="off"
               {...register("nome")}
+              placeholder="Nome"
             />
             <label htmlFor="email">Nome</label>
 
@@ -69,6 +70,7 @@ function SignUp() {
               id="email"
               autoComplete="off"
               {...register("email")}
+              placeholder="Email"
             />
             <label htmlFor="email">Email</label>
 
@@ -84,6 +86,7 @@ function SignUp() {
               id="password"
               autoComplete="off"
               {...register("password")}
+              placeholder="Senha"
             />
             <label htmlFor="password">Senha</label>
 

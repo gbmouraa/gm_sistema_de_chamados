@@ -52,6 +52,7 @@ function SignIn() {
               id="email"
               autoComplete="off"
               {...register("email")}
+              placeholder="email"
             />
             <label htmlFor="email">Email</label>
 
@@ -67,6 +68,7 @@ function SignIn() {
               id="password"
               autoComplete="off"
               {...register("password")}
+              placeholder="Senha"
             />
             <label htmlFor="password">Senha</label>
 

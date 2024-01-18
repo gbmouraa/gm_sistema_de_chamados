@@ -116,12 +116,13 @@
         border: 0.2rem solid $primary-blue;
       }
 
-      &:focus + label {
-        color: $primary-blue;
+      &::placeholder {
+        opacity: 0;
       }
 
       &:focus + label,
-      &:not(:empty) + label {
+      &:not(:placeholder-shown) + label {
+        color: $primary-blue;
         top: -1rem;
         left: 1.6rem;
         font-size: 1.4rem;
