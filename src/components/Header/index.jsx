@@ -19,8 +19,10 @@ function Header() {
   const { user, showNav, setShowNav, showModalLogout, setShowModalLogout } =
     useContext(AuthContext);
 
+  // refatorar
   const userFirstName = () => {
     let name = user.nome.split(" ");
+    // salvar em uma state
     return name[0];
   };
 
